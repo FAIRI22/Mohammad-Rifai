@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lab Maya — Eksplorasi Geografis Dunia</title>
+<style>
+:root{--navy:#07162f;--navy2:#0c2448;--blue:#1677d2;--cyan:#50d5ef;--gold:#f4c45e;--white:#f4f8ff;--muted:#a9bad3;--panel:rgba(15,39,73,.88);--line:rgba(132,190,235,.22);--green:#50d6a0}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 75% 8%,#173d70 0,transparent 30%),radial-gradient(circle at 10% 80%,#0b3152 0,transparent 28%),var(--navy);color:var(--white);font-family:Inter,Segoe UI,Arial,sans-serif;min-height:100vh}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.18;background-image:linear-gradient(rgba(120,190,255,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(120,190,255,.12) 1px,transparent 1px);background-size:42px 42px;mask-image:linear-gradient(to bottom,black,transparent 90%)}
+button{font:inherit;cursor:pointer}.app{max-width:1280px;margin:auto;padding:20px;position:relative;z-index:1}.topbar{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 16px;border:1px solid var(--line);background:rgba(5,18,39,.78);backdrop-filter:blur(14px);border-radius:18px;position:sticky;top:10px;z-index:20}
+.brand{display:flex;align-items:center;gap:11px;font-weight:900;letter-spacing:.08em}.brand-mark{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(145deg,#1b91e8,#073c79);box-shadow:0 0 24px #1685d866;font-size:23px}.brand small{display:block;color:var(--muted);font-size:10px;letter-spacing:.18em;margin-top:3px}.top-actions{display:flex;gap:8px;align-items:center}.chip,.icon-btn{border:1px solid var(--line);background:#102b4e;color:#dcecff;border-radius:12px;padding:9px 12px}.icon-btn{font-size:17px}.progress-wrap{height:5px;background:#183354;border-radius:9px;overflow:hidden;margin:15px 4px 20px}.progress{height:100%;width:12.5%;background:linear-gradient(90deg,var(--blue),var(--cyan),var(--gold));transition:width .4s}
+.scene{display:none;animation:enter .5s ease}.scene.active{display:block}@keyframes enter{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.hero{display:grid;grid-template-columns:1.1fr .9fr;align-items:center;gap:25px;min-height:570px}.eyebrow{color:var(--cyan);font-size:12px;font-weight:800;letter-spacing:.22em;text-transform:uppercase}.hero h1{font-size:clamp(38px,6vw,70px);line-height:1.02;margin:15px 0}.hero h1 span{color:var(--gold)}.lead{color:#bfd0e7;line-height:1.8;max-width:620px}.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}.primary,.secondary{border:0;border-radius:13px;padding:14px 20px;font-weight:800}.primary{background:linear-gradient(110deg,#1684df,#36b8dc);color:white;box-shadow:0 10px 30px #1684df44}.secondary{background:#173354;color:#dcecff;border:1px solid var(--line)}.primary:hover,.secondary:hover{transform:translateY(-2px);filter:brightness(1.1)}
+.globe-stage{height:430px;display:grid;place-items:center;position:relative;overflow:hidden}.orbit{position:absolute;width:370px;height:370px;border:1px solid #57c9f455;border-radius:50%;transform:rotate(-24deg) scaleY(.42);animation:spin 14s linear infinite}.orbit.two{width:450px;height:450px;transform:rotate(55deg) scaleY(.35);animation-duration:20s;border-color:#f4c45e55}@keyframes spin{to{rotate:360deg}}.globe{width:min(310px,72vw);aspect-ratio:1;border-radius:50%;position:relative;background:radial-gradient(circle at 32% 27%,#a7efff 0 2%,#1688bc 10%,#07508b 45%,#062347 75%);box-shadow:inset -28px -22px 45px #020d22, inset 10px 8px 22px #9ceaff77,0 0 55px #1a9fe977;overflow:hidden;animation:float 5s ease-in-out infinite}.globe:before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 28% 34%,#75b979 0 9%,transparent 10%),radial-gradient(ellipse at 57% 28%,#70b56c 0 13%,transparent 14%),radial-gradient(ellipse at 65% 62%,#8bbd73 0 17%,transparent 18%),radial-gradient(ellipse at 30% 70%,#75aa69 0 10%,transparent 11%);filter:drop-shadow(0 0 4px #b3e9a1)}.globe:after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 30px,#9de9ff24 31px 32px),repeating-linear-gradient(90deg,transparent 0 30px,#9de9ff24 31px 32px);border-radius:50%}@keyframes float{50%{transform:translateY(-12px)}}
+.hero-stats{display:flex;gap:12px;margin-top:30px;flex-wrap:wrap}.stat{padding:12px 15px;border:1px solid var(--line);background:#0d2747aa;border-radius:13px;color:var(--muted);font-size:12px}.stat b{display:block;color:white;font-size:18px;margin-bottom:3px}
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:15px;margin:28px 0 20px}.section-head h2{font-size:clamp(27px,4vw,42px);margin:8px 0}.section-head p{color:var(--muted);margin:0;line-height:1.6}.panel{background:linear-gradient(145deg,rgba(17,48,84,.92),rgba(8,27,53,.92));border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:0 18px 55px #020b1a44}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.mission-card{padding:20px;border:1px solid var(--line);border-radius:17px;background:#0b2443;min-height:160px}.mission-card .emoji{font-size:30px}.mission-card h3{margin:12px 0 7px}.mission-card p{color:var(--muted);line-height:1.6;font-size:14px;margin:0}.guide{display:flex;gap:16px;align-items:center}.avatar{width:88px;height:104px;flex:none;position:relative;border-radius:18px;background:linear-gradient(145deg,#1e6bb0,#0b2a50);display:grid;place-items:center;font-size:48px;border:1px solid #65cfff66;box-shadow:0 0 25px #1684df33}.speech{background:#eaf5ff;color:#142b49;padding:16px 18px;border-radius:15px;line-height:1.6;position:relative;flex:1}.speech:before{content:"";position:absolute;left:-9px;top:28px;border-width:9px 10px 9px 0;border-style:solid;border-color:transparent #eaf5ff transparent transparent}.speech b{color:#126bb0}.map-layout{display:grid;grid-template-columns:1.4fr .6fr;gap:18px}.mapbox{min-height:350px;position:relative;overflow:hidden;background:radial-gradient(ellipse at center,#164c70,#082341 70%);border-radius:18px;border:1px solid var(--line);display:grid;place-items:center}.worldmap{width:95%;max-height:330px}.continent{fill:#3b9b88;stroke:#a5e6c9;stroke-width:1.4;opacity:.9;cursor:pointer;transition:.2s}.continent:hover,.continent.selected{fill:#f1bd55;filter:drop-shadow(0 0 8px #f1bd55)}.map-label{fill:#d9f1ff;font-size:10px;letter-spacing:1px;pointer-events:none}.pin{fill:var(--gold);stroke:white;stroke-width:2;cursor:pointer}.info-list{display:grid;gap:10px}.info-btn{text-align:left;padding:13px;border:1px solid var(--line);background:#102e50;color:white;border-radius:12px}.info-btn.active{border-color:var(--gold);background:#3a3550}.fact{padding:14px;background:#0a213d;border-radius:13px;border:1px solid var(--line);margin-top:12px;color:#c8d9ed;line-height:1.6}
+.quiz-option{display:block;width:100%;text-align:left;margin:10px 0;padding:15px;border:1px solid var(--line);border-radius:13px;background:#102c4d;color:white}.quiz-option:hover{border-color:var(--cyan)}.quiz-option.correct{border-color:var(--green);background:#12483d}.quiz-option.wrong{border-color:#ff8d8d;background:#4a2634}.feedback{min-height:28px;color:var(--gold);font-weight:700;margin-top:10px}.meter{height:9px;background:#18395b;border-radius:20px;overflow:hidden}.meter>span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--green));transition:width .4s}.certificate{text-align:center;padding:35px;border:2px solid var(--gold);border-radius:20px;background:radial-gradient(circle at center,#173f64,#091b34)}.certificate .seal{font-size:55px}.certificate h2{font-family:Georgia,serif;color:var(--gold);letter-spacing:.12em}.certificate .name{font-size:24px;font-weight:900;margin:18px}
+.footer-nav{display:flex;justify-content:space-between;gap:12px;margin:25px 0 12px}.scene-count{color:var(--muted);font-size:13px}.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#eaf5ff;color:#0b2545;padding:11px 17px;border-radius:12px;box-shadow:0 8px 30px #0008;display:none;z-index:50}
+@media(max-width:800px){.hero,.grid2,.map-layout{grid-template-columns:1fr}.hero{padding:35px 0}.globe-stage{height:330px}.grid3{grid-template-columns:1fr}.topbar{position:relative;top:0}.chip{display:none}.section-head{display:block}.guide{align-items:flex-start}.avatar{width:68px;height:82px;font-size:38px}.speech:before{display:none}}
+@media(max-width:480px){.app{padding:12px}.topbar{padding:10px}.brand{font-size:12px}.brand-mark{width:36px;height:36px}.hero h1{font-size:42px}.panel{padding:16px}.footer-nav button{padding:12px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="topbar">
+  <div class="brand"><div class="brand-mark">🌐</div><div>LAB MAYA<small>EKSPLORASI GEOGRAFIS DUNIA</small></div></div>
+  <div class="top-actions"><span class="chip" id="levelChip">LEVEL 01 · PENJELAJAH</span><button class="icon-btn" id="soundBtn" title="Suara">🔊</button><button class="icon-btn" onclick="toggleHelp()" title="Bantuan">?</button></div>
+</header>
+<div class="progress-wrap"><div class="progress" id="progress"></div></div>
+
+<section class="scene active" data-scene="0">
+ <div class="hero">
+  <div><div class="eyebrow">✦ VIRTUAL LEARNING EXPERIENCE</div><h1>Jelajahi Bumi.<br><span>Pahami Dunia.</span></h1>
+   <p class="lead">Selamat datang di Lab Maya! Ikuti ekspedisi geografis untuk mengenal benua, bentang alam, iklim, penduduk, dan fenomena alam yang membentuk kehidupan di planet kita.</p>
+   <div class="actions"><button class="primary" onclick="go(1)">MULAI EKSPEDISI&nbsp; →</button><button class="secondary" onclick="speak('Selamat datang di Lab Maya Eksplorasi Geografis Dunia. Tekan mulai ekspedisi untuk memulai petualangan.')">▶ Dengarkan intro</button></div>
+   <div class="hero-stats"><div class="stat"><b>8 SCENE</b>Petualangan belajar</div><div class="stat"><b>5 MISI</b>Eksplorasi dunia</div><div class="stat"><b>INTERAKTIF</b>Belajar sambil bermain</div></div>
+  </div>
+  <div class="globe-stage"><div class="orbit"></div><div class="orbit two"></div><div class="globe"></div></div>
+ </div>
+</section>
+
+<section class="scene" data-scene="1">
+ <div class="section-head"><div><div class="eyebrow">SCENE 02 · BRIEFING</div><h2>Kenali Misi Ekspedisi</h2><p>Sebelum berangkat, pahami tujuan perjalananmu.</p></div><span class="scene-count">02 / 08</span></div>
+ <div class="panel"><div class="guide"><div class="avatar">🧑🏻‍🚀</div><div class="speech"><b>GEO · Pemandu Ekspedisi</b><br>“Halo, Penjelajah! Aku Geo. Kita akan mengunjungi berbagai wilayah di Bumi. Amati peta, temukan ciri wilayah, lalu gunakan bukti geografis untuk menyelesaikan misi!”</div></div></div>
+ <div class="grid3" style="margin-top:18px"><div class="mission-card"><div class="emoji">🧭</div><h3>Orientasi</h3><p>Mengenali letak dan karakteristik wilayah di permukaan Bumi.</p></div><div class="mission-card"><div class="emoji">🌦️</div><h3>Analisis</h3><p>Menghubungkan bentang alam, iklim, penduduk, dan aktivitas manusia.</p></div><div class="mission-card"><div class="emoji">🏆</div><h3>Tantangan</h3><p>Menyelesaikan pertanyaan dan memperoleh skor ekspedisi.</p></div></div>
+ <div class="panel" style="margin-top:18px"><h3>🎯 Target Pembelajaran</h3><ul style="color:#c4d5e9;line-height:1.9"><li>Mengidentifikasi karakteristik geografis benua dan kawasan dunia.</li><li>Menjelaskan hubungan kondisi fisik wilayah dengan kehidupan penduduk.</li><li>Menganalisis contoh fenomena alam dan lingkungan secara geografis.</li></ul></div>
+</section>
+
+<section class="scene" data-scene="2">
+ <div class="section-head"><div><div class="eyebrow">SCENE 03 · PERSIAPAN</div><h2>Perlengkapan Penjelajah</h2><p>Gunakan panel berikut sebagai panduan selama simulasi.</p></div><span class="scene-count">03 / 08</span></div>
+ <div class="grid2"><div class="panel"><h3>📘 Cara Menggunakan Lab</h3><ol style="color:#c4d5e9;line-height:2"><li>Pilih wilayah pada peta interaktif.</li><li>Baca informasi geografis yang muncul.</li><li>Bandingkan karakteristik antarwilayah.</li><li>Kerjakan tantangan pada bagian evaluasi.</li></ol></div><div class="panel"><div class="guide"><div class="avatar">🧑🏻‍🚀</div><div class="speech"><b>Geo berkata:</b><br>“Tidak perlu terburu-buru. Amati setiap petunjuk dan hubungkan informasi yang kamu temukan. Geografi membantu kita memahami mengapa setiap wilayah memiliki karakter yang berbeda.”</div></div><button class="secondary" style="margin-top:16px" onclick="speak('Tidak perlu terburu-buru. Amati setiap petunjuk dan hubungkan informasi yang kamu temukan. Geografi membantu kita memahami mengapa setiap wilayah memiliki karakter yang berbeda.')">🔊 Putar suara Geo</button></div></div>
+</section>
+
+<section class="scene" data-scene="3">
+ <div class="section-head"><div><div class="eyebrow">SCENE 04 · PETA INTERAKTIF</div><h2>Atlas Digital Dunia</h2><p>Klik nama benua atau wilayah untuk membuka informasi singkat.</p></div><span class="scene-count">04 / 08</span></div>
+ <div class="map-layout"><div class="mapbox">
+ <svg class="worldmap" viewBox="0 0 700 360" role="img" aria-label="Peta skematis dunia">
+  <path class="continent" data-region="Amerika Utara" d="M70 68 L130 38 202 53 237 91 214 126 190 151 171 190 139 177 120 139 86 125Z"/>
+  <path class="continent" data-region="Amerika Selatan" d="M205 184 L246 195 260 232 247 273 226 326 205 290 192 247Z"/>
+  <path class="continent" data-region="Eropa" d="M330 74 L371 58 405 75 397 108 367 118 341 101Z"/>
+  <path class="continent" data-region="Afrika" d="M350 127 L402 126 430 166 412 225 381 271 354 222 335 168Z"/>
+  <path class="continent" data-region="Asia" d="M405 66 L476 42 575 64 633 106 602 151 543 145 506 177 451 145 399 116Z"/>
+  <path class="continent" data-region="Australia" d="M535 226 L589 217 619 244 599 275 553 277 526 254Z"/>
+  <text class="map-label" x="105" y="105">AMERIKA UTARA</text><text class="map-label" x="203" y="244">AMERIKA SELATAN</text><text class="map-label" x="340" y="91">EROPA</text><text class="map-label" x="365" y="184">AFRIKA</text><text class="map-label" x="490" y="100">ASIA</text><text class="map-label" x="550" y="251">AUSTRALIA</text>
+  <circle class="pin" cx="382" cy="91" r="6"/><circle class="pin" cx="480" cy="111" r="6"/><circle class="pin" cx="378" cy="184" r="6"/>
+ </svg></div>
+ <div class="panel"><h3>🌍 Pilih Benua</h3><div class="info-list" id="regionButtons"></div><div class="fact" id="regionFact">Pilih salah satu benua untuk melihat gambaran karakteristik geografisnya.</div></div></div>
+ <p style="color:var(--muted);font-size:12px;margin-top:12px">Catatan: peta ini merupakan ilustrasi skematis untuk pembelajaran, bukan peta navigasi atau batas wilayah resmi.</p>
+</section>
+
+<section class="scene" data-scene="4">
+ <div class="section-head"><div><div class="eyebrow">SCENE 05 · EKSPLORASI</div><h2>Kenali Bentang Alam & Iklim</h2><p>Karakter fisik Bumi memengaruhi ekosistem dan kegiatan manusia.</p></div><span class="scene-count">05 / 08</span></div>
+ <div class="grid2">
+  <div class="mission-card"><div class="emoji">🏔️</div><h3>Pegunungan</h3><p>Wilayah dengan elevasi tinggi dan relief bervariasi. Dapat memengaruhi suhu, curah hujan, transportasi, dan pola permukiman.</p></div>
+  <div class="mission-card"><div class="emoji">🏜️</div><h3>Gurun</h3><p>Wilayah dengan curah hujan sangat rendah. Adaptasi terhadap keterbatasan air menjadi hal penting bagi makhluk hidup.</p></div>
+  <div class="mission-card"><div class="emoji">🌳</div><h3>Hutan Hujan Tropis</h3><p>Umumnya memiliki suhu hangat, curah hujan tinggi, dan keanekaragaman hayati yang besar.</p></div>
+  <div class="mission-card"><div class="emoji">🌾</div><h3>Dataran Rendah</h3><p>Relatif landai dan di sejumlah wilayah dimanfaatkan untuk pertanian, industri, serta permukiman.</p></div>
+ </div>
+ <div class="panel" style="margin-top:18px"><h3>🔎 Tantangan Pengamatan</h3><p style="color:#c4d5e9;line-height:1.7">Mengapa wilayah gurun dan hutan hujan tropis memiliki jenis vegetasi yang berbeda? Pilih penjelasan paling tepat pada evaluasi akhir.</p></div>
+</section>
+
+<section class="scene" data-scene="5">
+ <div class="section-head"><div><div class="eyebrow">SCENE 06 · ANALISIS GEOGRAFIS</div><h2>Manusia & Lingkungan</h2><p>Fenomena geografis terbentuk dari hubungan unsur alam dan aktivitas manusia.</p></div><span class="scene-count">06 / 08</span></div>
+ <div class="grid3"><div class="mission-card"><div class="emoji">🌋</div><h3>Fenomena alam</h3><p>Gempa bumi, gunung api, banjir, kekeringan, dan proses alam lainnya.</p></div><div class="mission-card"><div class="emoji">🏙️</div><h3>Aktivitas manusia</h3><p>Urbanisasi, penggunaan lahan, pertanian, industri, dan transportasi.</p></div><div class="mission-card"><div class="emoji">♻️</div><h3>Keberlanjutan</h3><p>Pengelolaan sumber daya dan pengurangan risiko kerusakan lingkungan.</p></div></div>
+ <div class="panel" style="margin-top:18px"><div class="guide"><div class="avatar">🧑🏻‍🚀</div><div class="speech"><b>Geo berkata:</b><br>“Perhatikan hubungan sebab dan akibat. Contohnya, perubahan penggunaan lahan di daerah resapan dapat meningkatkan risiko genangan atau banjir. Solusi geografis perlu mempertimbangkan kondisi alam dan kebutuhan masyarakat.”</div></div><button class="secondary" style="margin-top:16px" onclick="speak('Perhatikan hubungan sebab dan akibat. Perubahan penggunaan lahan di daerah resapan dapat meningkatkan risiko genangan atau banjir. Solusi geografis perlu mempertimbangkan kondisi alam dan kebutuhan masyarakat.')">🔊 Dengarkan penjelasan</button></div>
+</section>
+
+<section class="scene" data-scene="6">
+ <div class="section-head"><div><div class="eyebrow">SCENE 07 · EVALUASI</div><h2>Tantangan Akhir Penjelajah</h2><p>Jawab pertanyaan berikut untuk menuntaskan ekspedisi.</p></div><span class="scene-count">07 / 08</span></div>
+ <div class="panel"><div style="display:flex;justify-content:space-between;gap:12px;align-items:center"><b id="questionNo">Pertanyaan 1 dari 5</b><b style="color:var(--gold)" id="scoreText">Skor: 0</b></div><div class="meter" style="margin:14px 0 22px"><span id="quizMeter"></span></div><h3 id="questionText">Memuat pertanyaan...</h3><div id="options"></div><div class="feedback" id="feedback"></div><button class="primary" id="nextQuestion" style="display:none;margin-top:10px" onclick="nextQ()">Pertanyaan berikutnya →</button></div>
+</section>
+
+<section class="scene" data-scene="7">
+ <div class="section-head"><div><div class="eyebrow">SCENE 08 · MISI SELESAI</div><h2>Ekspedisi Berhasil!</h2><p>Kamu telah menyelesaikan perjalanan pembelajaran geografis.</p></div><span class="scene-count">08 / 08</span></div>
+ <div class="certificate"><div class="seal">🏅</div><div class="eyebrow">CERTIFICATE OF COMPLETION</div><h2>SERTIFIKAT PENJELAJAH</h2><p style="color:#c7d8e9">Diberikan kepada</p><div class="name">PENJELAJAH GEOGRAFI</div><p style="color:#c7d8e9">Atas partisipasi dalam Lab Maya<br><b>Eksplorasi Geografis Dunia</b></p><div style="font-size:20px;color:var(--gold);font-weight:900;margin:18px" id="finalScore">SKOR: 0 / 100</div><p style="color:#a9bad3;font-size:12px">Terus amati, bertanya, dan pahami dunia di sekitar kita.</p></div>
+ <div class="guide" style="margin-top:18px"><div class="avatar">🧑🏻‍🚀</div><div class="speech"><b>Geo:</b> “Kerja bagus, Penjelajah! Ingat, geografi bukan hanya tentang menghafal nama tempat, tetapi memahami hubungan antara manusia, ruang, dan lingkungan.”</div></div>
+ <div class="actions" style="justify-content:center"><button class="primary" onclick="window.print()">🖨 Cetak sertifikat</button><button class="secondary" onclick="restart()">↻ Ulangi ekspedisi</button></div>
+</section>
+
+<div class="footer-nav"><button class="secondary" id="prevBtn" onclick="go(current-1)" style="visibility:hidden">← Sebelumnya</button><span class="scene-count" id="sceneLabel">SCENE 01 / 08</span><button class="primary" id="nextBtn" onclick="go(current+1)">Lanjut →</button></div>
+<footer style="text-align:center;color:#829bb9;font-size:11px;padding:15px">LAB MAYA · MEDIA PEMBELAJARAN GEOGRAFI · VERSI DEMO 1.0</footer>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+let current=0, soundOn=true, score=0, qIndex=0, answered=false;
+const scenes=[...document.querySelectorAll('.scene')];
+function go(n){if(n<0||n>=scenes.length)return;scenes[current].classList.remove('active');current=n;scenes[current].classList.add('active');document.getElementById('progress').style.width=((current+1)/8*100)+'%';document.getElementById('sceneLabel').textContent=`SCENE ${String(current+1).padStart(2,'0')} / 08`;document.getElementById('prevBtn').style.visibility=current===0?'hidden':'visible';document.getElementById('nextBtn').style.display=current===7?'none':'inline-block';document.getElementById('nextBtn').textContent=current===6?'Lihat hasil →':'Lanjut →';if(current===6&&qIndex===0)renderQ();if(current===7)document.getElementById('finalScore').textContent=`SKOR: ${score} / 100`;window.scrollTo({top:0,behavior:'smooth'});}
+function speak(t){if(!soundOn)return;if(!('speechSynthesis'in window)){toast('Browser belum mendukung suara otomatis.');return}speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(t);u.lang='id-ID';u.rate=.94;u.pitch=1.05;speechSynthesis.speak(u)}
+document.getElementById('soundBtn').onclick=()=>{soundOn=!soundOn;document.getElementById('soundBtn').textContent=soundOn?'🔊':'🔇';if(!soundOn&&'speechSynthesis'in window)speechSynthesis.cancel();toast(soundOn?'Suara diaktifkan':'Suara dimatikan')};
+function toast(t){let e=document.getElementById('toast');e.textContent=t;e.style.display='block';setTimeout(()=>e.style.display='none',2200)}
+function toggleHelp(){toast('Gunakan tombol Sebelumnya dan Lanjut untuk berpindah scene. Klik pilihan pada peta dan kuis.')}
+const regions={
+'Amerika Utara':'Mencakup wilayah luas dengan bentang alam beragam, seperti pegunungan, dataran luas, dan kawasan tundra. Kondisi iklimnya bervariasi dari tropis hingga kutub.',
+'Amerika Selatan':'Memiliki Pegunungan Andes, Hutan Amazon, dataran tinggi, dan wilayah pesisir. Amazon dikenal sebagai salah satu kawasan hutan hujan tropis terbesar di dunia.',
+'Eropa':'Memiliki semenanjung dan garis pantai yang panjang, dataran rendah, pegunungan, serta iklim yang beragam. Kawasan ini memiliki jaringan kota dan transportasi yang padat.',
+'Afrika':'Memiliki Gurun Sahara, sabana, lembah sungai, dan hutan tropis. Variasi curah hujan sangat memengaruhi persebaran vegetasi dan aktivitas penduduk.',
+'Asia':'Benua terluas dengan bentang alam beragam, mulai dari Himalaya, dataran tinggi, gurun, hingga hutan tropis. Asia juga memiliki jumlah penduduk yang sangat besar.',
+'Australia':'Memiliki wilayah pedalaman yang relatif kering, kawasan pesisir yang lebih padat penduduk, serta ekosistem khas seperti semak belukar dan terumbu karang.'
+};
+const rb=document.getElementById('regionButtons');
+Object.keys(regions).forEach((r,i)=>{let b=document.createElement('button');b.className='info-btn';b.textContent=['🌎 ','🌎 ','🌍 ','🌍 ','🌏 ','🦘 '][i]+r;b.onclick=()=>{document.querySelectorAll('.info-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.getElementById('regionFact').textContent=regions[r];document.querySelectorAll('.continent').forEach(x=>x.classList.toggle('selected',x.dataset.region===r));};rb.appendChild(b)});
+document.querySelectorAll('.continent').forEach(p=>p.addEventListener('click',()=>{let b=[...rb.children].find(x=>x.textContent.includes(p.dataset.region));if(b)b.click()}));
+const qs=[
+{q:'Apa faktor utama yang menyebabkan vegetasi gurun berbeda dari hutan hujan tropis?',o:['Perbedaan curah hujan dan ketersediaan air','Perbedaan nama benua','Jumlah negara di wilayah tersebut','Warna tanah saja'],a:0,e:'Curah hujan dan ketersediaan air sangat memengaruhi jenis vegetasi yang dapat tumbuh.'},
+{q:'Pegunungan dapat memengaruhi kondisi iklim lokal terutama melalui ...',o:['Ketinggian tempat dan pengaruh relief','Jumlah bahasa penduduk','Bentuk mata uang','Batas administrasi negara'],a:0,e:'Ketinggian dan bentuk relief memengaruhi suhu serta pola hujan di suatu wilayah.'},
+{q:'Contoh hubungan aktivitas manusia dengan risiko banjir adalah ...',o:['Menambah ruang terbuka hijau','Menjaga daerah resapan','Mengubah daerah resapan menjadi permukaan kedap air','Menanam pohon di bantaran yang sesuai'],a:2,e:'Permukaan kedap air mengurangi peresapan sehingga limpasan permukaan dapat meningkat.'},
+{q:'Benua terluas di dunia adalah ...',o:['Afrika','Asia','Eropa','Australia'],a:1,e:'Asia merupakan benua terluas di dunia.'},
+{q:'Pendekatan geografis yang tepat untuk mengkaji persebaran permukiman adalah ...',o:['Melihat pola dan lokasi persebarannya di ruang','Menghafal nama tokoh sejarah','Menghitung jumlah huruf nama kota','Membandingkan mata uang'],a:0,e:'Kajian persebaran permukiman berkaitan dengan pola dan lokasi fenomena dalam ruang.'}
+];
+function renderQ(){let q=qs[qIndex];answered=false;document.getElementById('questionNo').textContent=`Pertanyaan ${qIndex+1} dari ${qs.length}`;document.getElementById('questionText').textContent=q.q;document.getElementById('scoreText').textContent='Skor: '+score;document.getElementById('quizMeter').style.width=(qIndex/qs.length*100)+'%';document.getElementById('feedback').textContent='';document.getElementById('nextQuestion').style.display='none';let box=document.getElementById('options');box.innerHTML='';q.o.forEach((v,i)=>{let b=document.createElement('button');b.className='quiz-option';b.textContent=String.fromCharCode(65+i)+'. '+v;b.onclick=()=>choose(i,b);box.appendChild(b)})}
+function choose(i,btn){if(answered)return;answered=true;let q=qs[qIndex],opts=[...document.querySelectorAll('.quiz-option')];opts.forEach((b,j)=>{b.disabled=true;if(j===q.a)b.classList.add('correct')});if(i===q.a){score+=20;document.getElementById('feedback').textContent='✓ Tepat! '+q.e}else{btn.classList.add('wrong');document.getElementById('feedback').textContent='Belum tepat. '+q.e}document.getElementById('scoreText').textContent='Skor: '+score;document.getElementById('quizMeter').style.width=((qIndex+1)/qs.length*100)+'%';document.getElementById('nextQuestion').textContent=qIndex===qs.length-1?'Lihat hasil ekspedisi →':'Pertanyaan berikutnya →';document.getElementById('nextQuestion').style.display='inline-block'}
+function nextQ(){if(qIndex<qs.length-1){qIndex++;renderQ()}else{document.getElementById('finalScore').textContent=`SKOR: ${score} / 100`;go(7)}}
+function restart(){score=0;qIndex=0;renderQ();go(0)}
+</script>
+</body></html>

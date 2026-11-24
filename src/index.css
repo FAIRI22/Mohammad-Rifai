@@ -1,0 +1,441 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+  
+  .font-mono {
+    font-family: 'Space Mono', monospace;
+  }
+}
+
+/* Natural Geographic Earth & Ocean Palette Variables */
+:root {
+  --geo-ocean-deep: #081a26;
+  --geo-ocean-shelf: #0f324d;
+  --geo-ocean-coast: #1b536b;
+  --geo-lowland-green: #1b4332;
+  --geo-lowland-lush: #2d6a4f;
+  --geo-plateau-khaki: #8a7037;
+  --geo-mountain-sienna: #78350f;
+  --geo-alpine-snow: #e2f1f8;
+  --geo-desert-sand: #d97706;
+}
+
+/* Background topographic contour lines and coordinate parallels */
+.geo-topographic-pattern {
+  background-color: #07151e;
+  background-image: 
+    radial-gradient(circle at 15% 25%, rgba(45, 106, 79, 0.12) 0%, transparent 45%),
+    radial-gradient(circle at 85% 75%, rgba(120, 53, 15, 0.10) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(15, 50, 77, 0.18) 0%, transparent 60%),
+    linear-gradient(to right, rgba(45, 106, 79, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(45, 106, 79, 0.04) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 100% 100%, 36px 36px, 36px 36px;
+}
+
+/* Topographic elevation gradient bar */
+.hypsometric-gradient {
+  background: linear-gradient(
+    to right,
+    #0c2a42 0%,    /* Bathymetry Deep Ocean */
+    #1b6888 20%,   /* Coastal Waters */
+    #2d6a4f 35%,   /* Lowlands / Forest (0-200m) */
+    #52b788 50%,   /* Plains & Valleys (200-500m) */
+    #d4a373 68%,   /* Plateaus & Hills (500-1500m) */
+    #8c4f27 84%,   /* High Mountains (1500-3000m) */
+    #f8fafc 100%   /* Glacial Peaks & Snow (>3000m) */
+  );
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes float-subtle {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes guide-bob {
+  0%, 100% {
+    transform: translateY(0px) scale(1);
+  }
+  50% {
+    transform: translateY(-4px) scale(1.015);
+  }
+}
+
+@keyframes guide-talk {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg) scale(1);
+  }
+  25% {
+    transform: translateY(-4px) rotate(-1.5deg) scale(1.03);
+  }
+  75% {
+    transform: translateY(-2px) rotate(1.5deg) scale(1.02);
+  }
+}
+
+@keyframes animal-blink {
+  0%, 44%, 48%, 92%, 96%, 100% {
+    transform: scaleY(1);
+  }
+  46%, 94% {
+    transform: scaleY(0.08);
+  }
+}
+
+@keyframes animal-tail-wag {
+  0%, 100% {
+    transform: rotate(-7deg);
+  }
+  50% {
+    transform: rotate(9deg);
+  }
+}
+
+@keyframes animal-ear-wiggle {
+  0%, 70%, 100% {
+    transform: rotate(0deg);
+  }
+  76% {
+    transform: rotate(-6deg);
+  }
+  84% {
+    transform: rotate(5deg);
+  }
+  92% {
+    transform: rotate(-3deg);
+  }
+}
+
+@keyframes animal-wing-flap {
+  0%, 100% {
+    transform: rotate(0deg) translateY(0px);
+  }
+  50% {
+    transform: rotate(-14deg) translateY(-3px);
+  }
+}
+
+@keyframes animal-hop {
+  0%, 100% {
+    transform: translateY(0px) scale(1);
+  }
+  30% {
+    transform: translateY(-10px) scale(1.04);
+  }
+  55% {
+    transform: translateY(0px) scale(0.98, 1.02);
+  }
+  75% {
+    transform: translateY(-5px) scale(1.02);
+  }
+}
+
+@keyframes animal-talk-jaw {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(2.5px) rotate(5deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 40s linear infinite;
+}
+
+.animate-float {
+  animation: float-subtle 4s ease-in-out infinite;
+}
+
+.animate-guide-bob {
+  animation: guide-bob 3.6s ease-in-out infinite;
+}
+
+.animate-guide-talk {
+  animation: guide-talk 0.9s ease-in-out infinite;
+}
+
+.animate-animal-blink {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: animal-blink 4.2s ease-in-out infinite;
+}
+
+.animate-animal-tail {
+  transform-box: fill-box;
+  transform-origin: 20% 80%;
+  animation: animal-tail-wag 1.8s ease-in-out infinite;
+}
+
+.animate-animal-ear {
+  transform-box: fill-box;
+  transform-origin: bottom center;
+  animation: animal-ear-wiggle 3.8s ease-in-out infinite;
+}
+
+.animate-animal-wing {
+  transform-box: fill-box;
+  transform-origin: top left;
+  animation: animal-wing-flap 1.4s ease-in-out infinite;
+}
+
+.animate-animal-hop {
+  animation: animal-hop 0.65s ease-out;
+}
+
+.animate-animal-talk {
+  transform-box: fill-box;
+  transform-origin: left center;
+  animation: animal-talk-jaw 0.35s ease-in-out infinite;
+}
+
+@keyframes bg-glide-ltr {
+  0% {
+    transform: translate3d(-18vw, 0px, 0);
+  }
+  25% {
+    transform: translate3d(14vw, -8px, 0);
+  }
+  50% {
+    transform: translate3d(46vw, 4px, 0);
+  }
+  75% {
+    transform: translate3d(78vw, -6px, 0);
+  }
+  100% {
+    transform: translate3d(115vw, 0px, 0);
+  }
+}
+
+@keyframes bg-glide-rtl {
+  0% {
+    transform: translate3d(115vw, 0px, 0);
+  }
+  25% {
+    transform: translate3d(80vw, -7px, 0);
+  }
+  50% {
+    transform: translate3d(46vw, 5px, 0);
+  }
+  75% {
+    transform: translate3d(12vw, -5px, 0);
+  }
+  100% {
+    transform: translate3d(-22vw, 0px, 0);
+  }
+}
+
+@keyframes bg-fly-ltr {
+  0% {
+    transform: translate3d(-16vw, 12px, 0);
+  }
+  30% {
+    transform: translate3d(20vw, -12px, 0);
+  }
+  65% {
+    transform: translate3d(62vw, -4px, 0);
+  }
+  100% {
+    transform: translate3d(114vw, -18px, 0);
+  }
+}
+
+@keyframes bg-fly-rtl {
+  0% {
+    transform: translate3d(114vw, 8px, 0);
+  }
+  35% {
+    transform: translate3d(68vw, -14px, 0);
+  }
+  70% {
+    transform: translate3d(24vw, 6px, 0);
+  }
+  100% {
+    transform: translate3d(-18vw, -12px, 0);
+  }
+}
+
+@keyframes bg-whale-fluke {
+  0%, 100% {
+    transform: rotate(-8deg);
+  }
+  50% {
+    transform: rotate(9deg);
+  }
+}
+
+@keyframes bg-bird-wing {
+  0%, 100% {
+    transform: scaleY(1) translateY(0px);
+  }
+  50% {
+    transform: scaleY(-0.65) translateY(3px);
+  }
+}
+
+@keyframes bg-spout-mist {
+  0%, 60%, 100% {
+    opacity: 0;
+    transform: translateY(6px) scale(0.7);
+  }
+  72% {
+    opacity: 0.75;
+    transform: translateY(-2px) scale(1);
+  }
+  88% {
+    opacity: 0.35;
+    transform: translateY(-10px) scale(1.18);
+  }
+}
+
+@keyframes bg-flutter {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) rotate(-4deg);
+  }
+  25% {
+    transform: translate3d(10px, -12px, 0) rotate(5deg);
+  }
+  50% {
+    transform: translate3d(18px, -4px, 0) rotate(-2deg);
+  }
+  75% {
+    transform: translate3d(6px, 8px, 0) rotate(4deg);
+  }
+}
+
+@keyframes bg-fish-arc {
+  0%, 55%, 100% {
+    opacity: 0;
+    transform: translate3d(0, 12px, 0) rotate(-25deg);
+  }
+  70% {
+    opacity: 0.85;
+    transform: translate3d(18px, -14px, 0) rotate(0deg);
+  }
+  85% {
+    opacity: 0.2;
+    transform: translate3d(34px, 10px, 0) rotate(28deg);
+  }
+}
+
+.animate-bg-glide-ltr {
+  animation: bg-glide-ltr 34s linear infinite;
+}
+
+.animate-bg-glide-ltr-slow {
+  animation: bg-glide-ltr 44s linear infinite;
+}
+
+.animate-bg-glide-rtl {
+  animation: bg-glide-rtl 36s linear infinite;
+}
+
+.animate-bg-fly-ltr {
+  animation: bg-fly-ltr 26s linear infinite;
+}
+
+.animate-bg-fly-ltr-slow {
+  animation: bg-fly-ltr 34s linear infinite;
+}
+
+.animate-bg-fly-rtl {
+  animation: bg-fly-rtl 28s linear infinite;
+}
+
+.animate-bg-whale-fluke {
+  transform-box: fill-box;
+  transform-origin: left center;
+  animation: bg-whale-fluke 2.4s ease-in-out infinite;
+}
+
+.animate-bg-bird-wing {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  animation: bg-bird-wing 0.9s ease-in-out infinite;
+}
+
+.animate-bg-spout-mist {
+  transform-box: fill-box;
+  transform-origin: bottom center;
+  animation: bg-spout-mist 6s ease-in-out infinite;
+}
+
+.animate-bg-flutter {
+  animation: bg-flutter 6s ease-in-out infinite;
+}
+
+.animate-bg-fish-arc {
+  animation: bg-fish-arc 7s ease-in-out infinite;
+}
+
+@keyframes scene-fade-slide-up {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 16px, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.animate-scene-enter {
+  animation: scene-fade-slide-up 0.38s cubic-bezier(0.16, 1, 0.3, 1) both;
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-spin-slow,
+  .animate-float,
+  .animate-guide-bob,
+  .animate-guide-talk,
+  .animate-animal-blink,
+  .animate-animal-tail,
+  .animate-animal-ear,
+  .animate-animal-wing,
+  .animate-animal-hop,
+  .animate-animal-talk,
+  .animate-bg-glide-ltr,
+  .animate-bg-glide-ltr-slow,
+  .animate-bg-glide-rtl,
+  .animate-bg-fly-ltr,
+  .animate-bg-fly-ltr-slow,
+  .animate-bg-fly-rtl,
+  .animate-bg-whale-fluke,
+  .animate-bg-bird-wing,
+  .animate-bg-spout-mist,
+  .animate-bg-flutter,
+  .animate-bg-fish-arc,
+  .animate-scene-enter {
+    animation: none !important;
+  }
+}
+
+/* Print certificate styling */
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print-only {
+    display: block !important;
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "name": "Lab Maya — Eksplorasi Geografis Dunia",
+  "description": "Laboratorium maya geografi interaktif dengan pemandu ahli Pak Geo dan Dr. Maya, peta digital dunia, simulasi bentang alam, dan kuis penjelajah.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
